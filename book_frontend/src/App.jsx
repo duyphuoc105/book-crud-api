@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Login from "./Login";
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] =
+    useState(
+      !!localStorage.getItem(
+        "access"
+      )
+    );
   const API_URL = "http://127.0.0.1:8000/api/books/";
 
   const [books, setBooks] = useState([]);
@@ -91,10 +98,36 @@ function App() {
 
     loadBooks();
   };
+  if (!isLoggedIn) {
 
+    return (
+      <Login
+        onLogin={() =>
+          setIsLoggedIn(true)
+        }
+      />
+    );
+  }
   return (
     <div style={{ padding: "20px" }}>
       <h1>Book Management</h1>
+      <button
+        onClick={async () => {
+
+          await axios.post(
+            "http://127.0.0.1:8000/api/logout/"
+          );
+
+          localStorage.removeItem(
+            "access"
+          );
+
+          setIsLoggedIn(false);
+
+        }}
+      >
+        Logout
+      </button>
 
       <hr />
 

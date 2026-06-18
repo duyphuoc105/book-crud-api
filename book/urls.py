@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import BookViewSet
+from .views import BookViewSet, LogoutView
 
 book_list = BookViewSet.as_view({
     'get': 'list',
@@ -16,4 +16,9 @@ book_detail = BookViewSet.as_view({
 urlpatterns = [
     path('books/', book_list),
     path('books/<int:pk>/', book_detail),
+
+    path(
+        'logout/',
+        LogoutView.as_view()
+    ),
 ]

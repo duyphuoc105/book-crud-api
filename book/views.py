@@ -3,7 +3,9 @@ from rest_framework import viewsets
 from .models import Book
 from .serializers import BookSerializer
 from .pagination import BookPagination
-
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 
 class BookViewSet(viewsets.ModelViewSet):
     serializer_class = BookSerializer
@@ -38,3 +40,10 @@ class BookViewSet(viewsets.ModelViewSet):
             )
 
         return queryset
+class LogoutView(APIView):
+
+    def post(self, request):
+        return Response(
+            {"message": "Logout successful"},
+            status=status.HTTP_200_OK
+        )
